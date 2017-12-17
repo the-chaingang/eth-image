@@ -1,0 +1,15 @@
+FROM ubuntu:16.04
+
+RUN apt-get update && \
+    apt-get install software-properties-common -y && \
+    add-apt-repository -y ppa:ethereum/ethereum && \
+    apt-get update && \
+    apt-get install -y ethereum
+
+RUN mkdir -p /opt/datadir
+
+VOLUME /opt/datadir
+
+EXPOSE 8545 8546 30303 30303/udp 30304/udp 6060
+
+ENTRYPOINT ["geth", "--datadir", "/opt/datadir"]
