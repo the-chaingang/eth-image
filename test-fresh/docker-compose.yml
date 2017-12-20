@@ -1,0 +1,10 @@
+version: '3'
+services:
+  genesis:
+    image: "eth-image:test-genesis-1"
+    network:
+      ethnet
+network:
+  ethnet:
+    driver: bridge
+    enable_ipv6: true
