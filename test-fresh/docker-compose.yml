@@ -1,10 +1,23 @@
 version: '3'
 services:
   genesis:
-    image: "eth-image:test-genesis-1"
-    network:
-      ethnet
-network:
+    image: "eth-genesis:latest"
+    networks:
+      - ethnet
+    volumes:
+      - genesis-node-datadir:/opt/datadir
+  genesis-enode-writer:
+    image: "eth-writer:latest"
+    networks:
+      - ethnet
+    volumes:
+      - genesis-node-datadir:/opt/datadir
+      - enode-registry:/opt/enode-registry
+    depends_on:
+      - genesis
+networks:
   ethnet:
     driver: bridge
-    enable_ipv6: true
+volumes:
+  enode-registry:
+  genesis-node-datadir:

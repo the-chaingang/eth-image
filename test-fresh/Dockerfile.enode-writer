@@ -6,14 +6,14 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y ethereum
 
-RUN mkdir -p /opt/datadir && mkdir -p /opt/genesis
+RUN mkdir -p /opt/datadir && mkdir -p /opt/enode-registry
 
 VOLUME /opt/datadir
 
-COPY genesis.json /opt/genesis
+VOLUME /opt/enode-registry
 
-COPY genesis-entrypoint.sh /
+COPY enode-write.sh /
 
 EXPOSE 8545 8546 30303 30303/udp 30304/udp 6060
 
-ENTRYPOINT ["bash", "/genesis-entrypoint.sh"]
+ENTRYPOINT ["bash", "/enode-write.sh"]
