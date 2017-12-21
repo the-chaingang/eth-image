@@ -1,13 +1,16 @@
-version: '3'
+version: '2.1'
 services:
   genesis:
-    image: "eth-genesis:latest"
+    image: eth-genesis:latest
     networks:
-      - ethnet
+      ethnet:
+        ipv4_address: 11.15.0.2
+    ports:
+      - "30303:30303"
     volumes:
       - genesis-node-datadir:/opt/datadir
   genesis-enode-writer:
-    image: "eth-writer:latest"
+    image: eth-writer:latest
     networks:
       - ethnet
     volumes:
@@ -15,9 +18,25 @@ services:
       - enode-registry:/opt/enode-registry
     depends_on:
       - genesis
+    environment:
+      - HOST_NAME=11.15.0.2
+  node-1:
+    image: eth-node:latest
+    networks:
+      - ethnet
+    volumes:
+      - node-1-datadir:/opt/datadir
+      - enode-registry:/opt/enode-registry
+    depends_on:
+      - genesis-enode-writer
 networks:
   ethnet:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 11.15.0.0/16
+          gateway: 11.15.0.1
 volumes:
   enode-registry:
   genesis-node-datadir:
+  node-1-datadir:

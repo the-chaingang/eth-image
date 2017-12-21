@@ -14,4 +14,9 @@ VOLUME /opt/enode-registry
 
 EXPOSE 8545 8546 30303 30303/udp 30304/udp 6060
 
+COPY node-up.sh /
+
+ENV NETWORK_ID=11
+
 ENTRYPOINT ["geth", "--datadir", "/opt/datadir"]
+ENTRYPOINT ["bash", "/node-up.sh"]

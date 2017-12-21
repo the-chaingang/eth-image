@@ -16,4 +16,6 @@ COPY enode-write.sh /
 
 EXPOSE 8545 8546 30303 30303/udp 30304/udp 6060
 
+ENV HOST_NAME="<host-name>"
+
 ENTRYPOINT ["bash", "/enode-write.sh"]
